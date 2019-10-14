@@ -19,6 +19,8 @@ app.use((req, res, next) => {
   next();
 });
 
+8uOx1tHTNVfsmq27
+
 app.post("/api/posts", (req, res, next) => {
   const post = req.body;
   console.log(post);
