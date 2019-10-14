@@ -21,8 +21,8 @@ export class PostsService {
             return {
               title: post.title,
               content: post.content,
-              id: post.id
-            }
+              id: post._id
+            };
           });
         }))
         .subscribe(transformedPost => {
@@ -43,6 +43,14 @@ export class PostsService {
           console.log(responseData.message);
           this.posts.push(post);
           this.postsUpdated.next([...this.posts]);
+        });
+  }
+
+  deletePost(postId: string) {
+    this.http
+        .delete('http://localhost:3000/api/posts/' + postId)
+        .subscribe(() => {
+          console.log('Deleted!');
         });
   }
 }
