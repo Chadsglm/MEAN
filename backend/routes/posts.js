@@ -63,21 +63,20 @@ router.put("/:id", multer({storage: storage}).single('image'), (req, res, next) 
 });
 
 router.get("", (req, res, next) => {
-  const pageSize = +req.query.pageSize;
+  const pageSize = +req.query.pagesize;
   const currentPage = +req.query.page;
   const postQuery = Post.find();
-
   if (pageSize && currentPage) {
     postQuery.skip(pageSize * (currentPage - 1))
-              .limit(pageSize);
+             .limit(pageSize);
   }
 
   postQuery.then(documents => {
-    res.status(200).json({
-      message: "Posts fetched successfully!",
-      posts: documents
+      res.status(200).json({
+        message: "Posts fetched successfully!",
+        posts: documents
+      });
     });
-  });
 });
 
 router.get("/:id", (req, res, next) => {
@@ -88,7 +87,7 @@ router.get("/:id", (req, res, next) => {
       res.status(404).json({ message: "Post not found!" });
     }
   });
-});
+})
 
 router.delete("/:id", (req, res, next) => {
   Post.deleteOne({ _id: req.params.id }).then(result => {
