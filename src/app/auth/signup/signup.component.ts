@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-signup',
@@ -6,10 +7,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./signup.component.scss']
 })
 export class SignupComponent implements OnInit {
-
+  isLoading = false;
   constructor() { }
 
   ngOnInit() {
   }
 
+  onSignup(form: NgForm) {
+    console.log(form.value);
+  }
 }
