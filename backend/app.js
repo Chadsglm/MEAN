@@ -10,7 +10,7 @@ const app = express();
 
 mongoose
   .connect(
-    'mongodb+srv://Chad:8uOx1tHTNVfsmq27@mean-opysa.mongodb.net/test?retryWrites=true&w=majority',
+    'mongodb+srv://Chad:8uOx1tHTNVfsmq27@mean-opysa.mongodb.net/node-angular',
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => {
