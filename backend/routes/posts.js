@@ -1,8 +1,8 @@
-const express = require("express");
-const multer =  require('multer');
+const express = require('express');
+const multer = require('multer');
 
-const Post = require("../models/post");
-const checkAuth = require("../middleware/checkout-auth");
+const Post = require('../models/post');
+const checkAuth = require('../middleware/check-auth');
 
 const router = express.Router();
 
@@ -13,63 +13,69 @@ const MIME_TYPE_MAP = {
 };
 
 const storage = multer.diskStorage({
-  destination: (req, file, callback) => {
+  destination: (req, file, callback) => {
     const isValid = MIME_TYPE_MAP[file.mimetype];
     let error = new Error('Invalid mime type');
-    if(isValid) {
+    if (isValid) {
       error = null;
     }
-    callback(error, 'backend/images');
+    callback(error, 'backEnd/images');
   },
-  filename: (req, file, callback) => {
-    const name = file.originalname.toLowerCase().split(' ').join('-');
+  filename: (req, file, callback) => {
+    const name = file.originalname
+      .toLowerCase()
+      .split(' ')
+      .join('-');
     const ext = MIME_TYPE_MAP[file.mimetype];
-    callback(null, name + '-' +Date.now() + '.' + ext);
-  },
+    callback(null, name + '-' + Date.now() + '.' + ext);
+  }
 });
 
 router.post(
   '',
   checkAuth,
-  multer({storage: storage}).single('image'),
+  multer({ storage: storage }).single('image'),
   (req, res, next) => {
-  const url = req.protocol + '://' + req.get('host');
-  const post = new Post({
-    title: req.body.title,
-    content: req.body.content,
-    imagePath: url + '/images/' +req.file.filename
-  });
-  post.save().then(createdPost => {
-    res.status(201).json({
-      message: "Post added successfully",
-      post: {
-        ...createdPost,
-        id: createdPost._id
-      }
+    const url = req.protocol + '://' + req.get('host');
+    const post = new Post({
+      title: req.body.title,
+      content: req.body.content,
+      imagePath: url + '/images/' + req.file.filename
     });
-  });
-});
+    post.save().then(createdPost => {
+      res.status(201).json({
+        message: 'Post added successfully',
+        post: {
+          ...createdPost,
+          id: createdPost._id
+        }
+      });
+    });
+  }
+);
 
 router.put(
   '/:id',
   checkAuth,
-  multer({storage: storage}).single('image'),
+  multer({ storage: storage }).single('image'),
   (req, res, next) => {
-  let imagePath = req.body.imagePath;
-  if (req.file) {
-    const url = req.protocol + '://' + req.get('host');
-    imagePath = url + '/images/' + req.file.filename
+    let imagePath = req.body.imagePath;
+    if (req.file) {
+      const url = req.protocol + '://' + req.get('host');
+      imagePath = url + '/images/' + req.file.filename;
+    }
+    const post = new Post({
+      _id: req.body.id,
+      title: req.body.title,
+      content: req.body.content,
+      imagePath: imagePath
+    });
+    console.log(post);
+    Post.updateOne({ _id: req.params.id }, post).then(result => {
+      res.status(200).json({ message: 'Update successful!' });
+    });
   }
-  const post = new Post({
-    _id: req.body.id,
-    title: req.body.title,
-    content: req.body.content,
-    imagePath: imagePath
-  });
-  Post.updateOne({ _id: req.params.id }, post).then(result => {
-    res.status(200).json({ message: 'Update successful!' });
-  });
-});
+);
 
 router.get('', (req, res, next) => {
   const pageSize = +req.query.pagesize;
@@ -82,7 +88,7 @@ router.get('', (req, res, next) => {
   postQuery
     .then(documents => {
       fetchedPosts = documents;
-      return Post.countDocuments();
+      return Post.count();
     })
     .then(count => {
       res.status(200).json({
@@ -98,15 +104,19 @@ router.get('/:id', (req, res, next) => {
     if (post) {
       res.status(200).json(post);
     } else {
-      res.status(404).json({ message: 'Post not found!' });
+      res.status(404).json({
+        message: 'Post not found!'
+      });
     }
   });
-})
+});
 
-router.delete('/:id', (req, res, next) => {
+router.delete('/:id', checkAuth, (req, res, next) => {
   Post.deleteOne({ _id: req.params.id }).then(result => {
     console.log(result);
-    res.status(200).json({ message: 'Post deleted!' });
+    res.status(200).json({
+      message: 'Post deleted!'
+    });
   });
 });
 
