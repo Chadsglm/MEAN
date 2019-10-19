@@ -7,7 +7,7 @@ import { AuthService } from '../auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   isLoading = false;
 
   constructor(public authService: AuthService) {}
@@ -18,9 +18,6 @@ export class LoginComponent implements OnInit {
     }
     this.isLoading = true;
     this.authService.login(form.value.email, form.value.password);
-  }
-
-  ngOnInit() {
   }
 
 }

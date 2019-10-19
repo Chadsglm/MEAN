@@ -8,13 +8,10 @@ import { AuthService } from '../auth.service';
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss']
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent {
   isLoading = false;
 
-  constructor(public authService: AuthService) { }
-
-  ngOnInit() {
-  }
+  constructor(public authService: AuthService) {}
 
   onSignup(form: NgForm) {
     if (form.invalid) {
