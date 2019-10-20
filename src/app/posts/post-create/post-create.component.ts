@@ -12,13 +12,13 @@ import { mimeType } from './mime-type.validator';
   styleUrls: ['./post-create.component.scss']
 })
 export class PostCreateComponent implements OnInit {
-  enteredTitle = "";
-  enteredContent = "";
+  enteredTitle = '';
+  enteredContent = '';
   post: Post;
   isLoading = false;
   form: FormGroup;
   imagePreview: string;
-  private mode = "create";
+  private mode = 'create';
   private postId: string;
 
   constructor(
@@ -38,9 +38,9 @@ export class PostCreateComponent implements OnInit {
       })
     });
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
-      if (paramMap.has("postId")) {
-        this.mode = "edit";
-        this.postId = paramMap.get("postId");
+      if (paramMap.has('postId')) {
+        this.mode = 'edit';
+        this.postId = paramMap.get('postId');
         this.isLoading = true;
         this.postsService.getPost(this.postId).subscribe(postData => {
           this.isLoading = false;
@@ -48,7 +48,8 @@ export class PostCreateComponent implements OnInit {
             id: postData._id,
             title: postData.title,
             content: postData.content,
-            imagePath: postData.imagePath
+            imagePath: postData.imagePath,
+            creator: postData.creator
           };
           this.form.setValue({
             title: this.post.title,
