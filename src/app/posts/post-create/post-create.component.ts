@@ -23,7 +23,8 @@ export class PostCreateComponent implements OnInit {
 
   constructor(
     public postsService: PostsService,
-    public route: ActivatedRoute) {}
+    public route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
     this.form = new FormGroup({
@@ -47,7 +48,8 @@ export class PostCreateComponent implements OnInit {
             id: postData._id,
             title: postData.title,
             content: postData.content,
-            imagePath: postData.imagePath
+            imagePath: postData.imagePath,
+            creator: postData.creator
           };
           this.form.setValue({
             title: this.post.title,
@@ -56,7 +58,7 @@ export class PostCreateComponent implements OnInit {
           });
         });
       } else {
-        this.mode = 'create';
+        this.mode = "create";
         this.postId = null;
       }
     });
@@ -65,7 +67,7 @@ export class PostCreateComponent implements OnInit {
   onImagePicked(event: Event) {
     const file = (event.target as HTMLInputElement).files[0];
     this.form.patchValue({ image: file });
-    this.form.get('image').updateValueAndValidity();
+    this.form.get("image").updateValueAndValidity();
     const reader = new FileReader();
     reader.onload = () => {
       this.imagePreview = reader.result as string;
@@ -78,7 +80,7 @@ export class PostCreateComponent implements OnInit {
       return;
     }
     this.isLoading = true;
-    if (this.mode === 'create') {
+    if (this.mode === "create") {
       this.postsService.addPost(
         this.form.value.title,
         this.form.value.content,
@@ -94,5 +96,4 @@ export class PostCreateComponent implements OnInit {
     }
     this.form.reset();
   }
-
 }

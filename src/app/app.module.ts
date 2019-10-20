@@ -14,8 +14,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { PostCreateComponent } from './post/post-create/post-create.component';
-import { PostListComponent } from './post/post-list/post-list.component';
+import { PostCreateComponent } from './posts/post-create/post-create.component';
+import { PostListComponent } from './posts/post-list/post-list.component';
 import { HeaderComponent } from './header/header.component';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
