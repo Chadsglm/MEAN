@@ -10,7 +10,9 @@ const app = express();
 
 mongoose
   .connect(
-    'mongodb+srv://Chad:8uOx1tHTNVfsmq27@mean-opysa.mongodb.net/test',
+    "mongodb+srv://Chad:" +
+    process.env.MONGO_ATLAS_PW +
+    "@mean-opysa.mongodb.net/test",
     { useNewUrlParser: true, useUnifiedTopology: true, 'useCreateIndex': true }
   )
   .then(() => {
