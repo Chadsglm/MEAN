@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { AngularMaterialModule } from '../angular-material.module';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
+import { AuthRoutingModule } from './auth-routing.module';
 
 
 
@@ -18,7 +19,8 @@ import { SignupComponent } from './signup/signup.component';
     CommonModule,
     FormsModule,
     RouterModule,
-    AngularMaterialModule
+    AngularMaterialModule,
+    AuthRoutingModule
   ]
 })
 
